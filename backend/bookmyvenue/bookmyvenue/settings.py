@@ -11,17 +11,21 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-#3@s2nc#=9s7w5%ev(9)m@u8ln!$nr_rvtehx(2jhsj09h^mu*'
 
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -38,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'auth_system',
+    'venues',
+    'bookings',
+    'Payments',
     'rest_framework',
     'corsheaders',
 ]
@@ -74,6 +81,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bookmyvenue.wsgi.application'
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
@@ -123,4 +136,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
+
 STATIC_URL = 'static/'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"

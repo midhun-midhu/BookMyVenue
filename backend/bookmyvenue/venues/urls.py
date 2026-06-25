@@ -1,0 +1,7 @@
+from django.urls import path
+from .views import venue_list, venue_detail
+
+urlpatterns = [
+    path('', venue_list),
+    path('<int:pk>/', venue_detail),
+]
